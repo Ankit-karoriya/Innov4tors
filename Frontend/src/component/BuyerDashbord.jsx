@@ -1,9 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function BuyerDashbord() {
+export default function BuyerDashboard() {
   const [activeTab, setActiveTab] = useState("pending");
   const navigate = useNavigate();
+
+  // Check if user is logged in on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/buyer/login");
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    try {
+      // Clear all localStorage items
+      localStorage.clear();
+      
+      // Or specifically remove items
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("user");
+      
+      console.log("Logout successful, redirecting...");
+      
+      // Navigate to login page
+      navigate("/buyer/login", { replace: true });
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Force navigation even if there's an error
+      navigate("/buyer/login", { replace: true });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white font-[Poppins]">
@@ -12,7 +40,7 @@ export default function BuyerDashbord() {
       <header className="bg-green-700 text-white shadow-md p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold tracking-wide">Buyer Dashboard</h1>
         <button 
-          onClick={() => navigate("/")}
+          onClick={handleLogout}
           className="bg-white text-green-700 font-semibold px-4 py-2 rounded-lg hover:bg-green-100 transition"
         >
           Logout

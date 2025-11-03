@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SellerDashboard() {
   const [activeTab, setActiveTab] = useState("projects");
+  const navigate = useNavigate();
+
+  // Check if user is logged in on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/seller/login");
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/seller/login");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white font-[Poppins]">
       {/* Navbar */}
       <header className="bg-emerald-700 text-white shadow-md p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold tracking-wide">Seller Dashboard</h1>
-        <button className="bg-white text-emerald-700 font-semibold px-4 py-2 rounded-lg hover:bg-emerald-100 transition">
+        <button 
+          onClick={handleLogout}
+          className="bg-white text-emerald-700 font-semibold px-4 py-2 rounded-lg hover:bg-emerald-100 transition"
+        >
           Logout
         </button>
       </header>
@@ -150,6 +168,7 @@ function ProjectDetails() {
           { id: "pending", label: "Seller Pending Projects" },
           { id: "approved", label: "Seller Approved Projects" },
           { id: "rejected", label: "Seller Rejected Projects" },
+          { id: "create", label: "Create a New Project" }, // ✅ Added new tab
         ].map((tab) => (
           <button
             key={tab.id}
@@ -202,10 +221,188 @@ function ProjectDetails() {
       {subTab === "rejected" && (
         <ProjectListSection title="Rejected Projects" data={rejectedProjects} color="red" />
       )}
+
+      {/* ✅ NEW TAB CONTENT */}
+      {subTab === "create" && <CreateProjectForm />}
     </div>
   );
 }
 
+/* --- New Component: CreateProjectForm --- */
+function CreateProjectForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    location: "",
+    description: "",
+    credits: "",
+    duration: "",
+    area: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("New project created:", formData);
+    alert("✅ Project submitted successfully!");
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      location: "",
+      description: "",
+      credits: "",
+      duration: "",
+      area: "",
+    });
+  };
+
+  return (
+    <div className="bg-white rounded-xl shadow-md border border-emerald-100 p-6">
+      <h3 className="text-xl font-semibold text-emerald-700 mb-4">🆕 Create a New Project</h3>
+
+      <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+        {/* Project Name */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Project Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Email */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Phone Number */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Phone Number</label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Address */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Address</label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Location */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Project Location</label>
+          <input
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            required
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Duration */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Duration (in months)</label>
+          <input
+            type="number"
+            name="duration"
+            value={formData.duration}
+            onChange={handleChange}
+            required
+            min="1"
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Area */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Area (in hectares)</label>
+          <input
+            type="number"
+            name="area"
+            value={formData.area}
+            onChange={handleChange}
+            required
+            min="0.1"
+            step="0.1"
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Credits */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Carbon Credits</label>
+          <input
+            type="number"
+            name="credits"
+            value={formData.credits}
+            onChange={handleChange}
+            required
+            min="1"
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Description */}
+        <div className="md:col-span-2">
+          <label className="block text-gray-700 font-medium mb-1">Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="4"
+            required
+            className="w-full border border-emerald-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+          ></textarea>
+        </div>
+
+        {/* Submit Button */}
+        <div className="md:col-span-2 flex justify-center">
+          <button
+            type="submit"
+            className="bg-emerald-600 text-white font-semibold px-8 py-2 rounded-lg hover:bg-emerald-700 transition"
+          >
+            Submit Project
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
 /* --- Subcomponent for Project Lists --- */
 function ProjectListSection({ title, data, color }) {
   return (
@@ -225,6 +422,7 @@ function ProjectListSection({ title, data, color }) {
           ))}
         </ul>
       )}
+      
     </div>
   );
 }

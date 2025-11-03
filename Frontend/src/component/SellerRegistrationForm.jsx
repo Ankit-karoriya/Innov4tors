@@ -26,11 +26,18 @@ export default function SellerRegistrationForm() {
         setError("");
         setSubmitting(true);
         try {
+            // Send all form data to the backend
             await register({
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
                 role: "seller",
+                organisation: formData.organisation,
+                registrationId: formData.registrationId,
+                phone: formData.phone,
+                address: formData.address,
+                state: formData.state,
+                country: formData.country,
             });
             alert("Seller Registration Successful!");
         } catch (err) {

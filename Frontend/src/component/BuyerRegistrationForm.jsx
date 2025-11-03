@@ -27,11 +27,19 @@ export default function BuyerRegistrationForm() {
         setError("");
         setSubmitting(true);
         try {
+            // Send all form data to the backend
             await register({
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
                 role: "buyer",
+                company: formData.company,
+                businessType: formData.businessType,
+                registrationNumber: formData.registrationNumber,
+                phone: formData.phone,
+                address: formData.address,
+                country: formData.country,
+                walletAddress: formData.walletAddress,
             });
             alert("Registration Successful!");
         } catch (err) {
