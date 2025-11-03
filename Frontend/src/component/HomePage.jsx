@@ -1,5 +1,7 @@
 import React from "react";
 import mangrove from '../assets/mangrove.jpeg'
+import { Link } from "react-router-dom";
+import About from "./About";
 
 // Reusable Button component (pure JS)
 function Button({ children, onClick, className = "", type = "button" }) {
@@ -27,6 +29,8 @@ export default function HomePage() {
             }}
 
         >
+
+            
             {/* Overlay for readability */}
             <div className="absolute inset-0 bg-black opacity-40"></div>
 
@@ -45,20 +49,27 @@ export default function HomePage() {
 
                 {/* Buttons */}
                 <div className="flex flex-col md:flex-row gap-4 justify-center">
-                    <Button
+                    <Link
                         className="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-xl text-lg"
-                        onClick={() => alert("Seller registration coming soon!")}
+                        to='/seller/login'
                     >
                         Register as Seller
-                    </Button>
-                    <Button
+                    </Link>
+                    <Link
                         className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl text-lg"
-                        onClick={() => alert("Buyer registration coming soon!")}
+                        to='/buyer/login'
                     >
                         Register as Buyer
-                    </Button>
+                    </Link>
                 </div>
             </div>
+
+            <Link
+            to='/about'
+            className="m-3 underline cursor-pointer text-white text-xl"
+            >
+            About
+            </Link>
 
             {/* Footer */}
             <footer className="absolute bottom-6 text-gray-200 text-sm z-10">
