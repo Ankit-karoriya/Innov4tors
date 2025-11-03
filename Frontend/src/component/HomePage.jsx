@@ -1,7 +1,7 @@
 import React from "react";
 import mangrove from '../assets/mangrove.jpeg'
 import { Link } from "react-router-dom";
-import About from "./About";
+
 
 // Reusable Button component (pure JS)
 function Button({ children, onClick, className = "", type = "button" }) {
@@ -64,12 +64,6 @@ export default function HomePage() {
                 </div>
             </div>
 
-            <Link
-            to='/about'
-            className="m-3 underline cursor-pointer text-white text-xl"
-            >
-            About
-            </Link>
 
             {/* Footer */}
             <footer className="absolute bottom-6 text-gray-200 text-sm z-10">
