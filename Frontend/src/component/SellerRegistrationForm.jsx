@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { register } from "../api/auth";
 
 export default function SellerRegistrationForm() {
     const [formData, setFormData] = useState({
@@ -17,10 +18,26 @@ export default function SellerRegistrationForm() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        alert("Seller Registration Successful!");
+        setError("");
+        setSubmitting(true);
+        try {
+            await register({
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                role: "seller",
+            });
+            alert("Seller Registration Successful!");
+        } catch (err) {
+            setError(err?.response?.data?.message || "Registration failed");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -115,10 +132,12 @@ export default function SellerRegistrationForm() {
                 <div className="text-center mt-8">
                     <button
                         type="submit"
-                        className="bg-cyan-600 hover:bg-cyan-700 text-white px-10 py-3 rounded-xl font-semibold text-lg shadow-md hover:shadow-cyan-300/40 transform hover:scale-105 transition-all duration-300"
+                        disabled={submitting}
+                        className="bg-cyan-600 hover:bg-cyan-700 disabled:opacity-60 text-white px-10 py-3 rounded-xl font-semibold text-lg shadow-md hover:shadow-cyan-300/40 transform hover:scale-105 transition-all duration-300"
                     >
-                        Register
+                        {submitting ? "Submitting..." : "Register"}
                     </button>
+                    {error && <p className="text-red-600 mt-3">{error}</p>}
                 </div>
             </form>
 

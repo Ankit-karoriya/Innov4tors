@@ -1,6 +1,8 @@
 import React from "react";
 import mangrove from '../assets/mangrove.jpeg'
 import { Link } from "react-router-dom";
+import AuthPanel from "./AuthPanel";
+import CreditsPanel from "./CreditsPanel";
 
 
 // Reusable Button component (pure JS)
@@ -63,6 +65,12 @@ export default function HomePage() {
                     </Link>
                 </div>
             </div>
+
+			{/* Working model panels */}
+			<div className="relative z-10 w-full max-w-5xl">
+				<AuthPanel />
+				<CreditsPanel />
+			</div>
 
 
             {/* Footer */}

@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 
 import HomePage from './component/HomePage.jsx';
 import BuyerRegistrationForm from './component/BuyerRegistrationForm.jsx';
-import About from "./component/About.jsx";
 import SellerRegistrationForm from "./component/SellerRegistrationForm.jsx";
 import SellerLogin from "./component/SellerLogin.jsx";
 import BuyerLogin from "./component/BuyerLogin.jsx";
@@ -24,7 +23,6 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<About />} />
 
         {/* Seller Routes */}
         <Route path="/seller/register" element={<SellerRegistrationForm />} />
