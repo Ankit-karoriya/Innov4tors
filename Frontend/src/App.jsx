@@ -1,11 +1,13 @@
 import { useState } from 'react'
+import HomePage from './component/Home'
+import BuyerRegistrationForm from './component/BuyerRegistrationForm.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
-
+      <BuyerRegistrationForm />
     </>
   )
 }

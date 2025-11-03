@@ -1,11 +1,69 @@
-import React from 'react'
+import React from "react";
+import mangrove from '../assets/mangrove.jpeg'
 
-function Home() {
-  return (
-    <div>
-      
-    </div>
-  )
+// Reusable Button component (pure JS)
+function Button({ children, onClick, className = "", type = "button" }) {
+    return (
+        <button
+            type={type}
+            onClick={onClick}
+            className={
+                "transition duration-300 ease-in-out font-medium rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 " +
+                className
+            }
+        >
+            {children}
+        </button>
+    );
 }
 
-export default Home
+// Main Home Page component
+export default function HomePage() {
+    return (
+        <div
+            className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center p-6 relative"
+            style={{
+                backgroundImage: `url(${mangrove})`,
+            }}
+
+        >
+            {/* Overlay for readability */}
+            <div className="absolute inset-0 bg-black opacity-40"></div>
+
+            {/* Hero content */}
+            <div className="relative text-center max-w-3xl text-white z-10">
+                <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+                    Carbon Credit Exchange
+                </h1>
+
+                <p className="text-lg md:text-xl mb-8 drop-shadow-md">
+                    Empowering sustainability through transparent carbon credit transactions.
+                    <br />
+                    Join as a <span className="font-semibold">Buyer</span> or{" "}
+                    <span className="font-semibold">Seller</span> today.
+                </p>
+
+                {/* Buttons */}
+                <div className="flex flex-col md:flex-row gap-4 justify-center">
+                    <Button
+                        className="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-xl text-lg"
+                        onClick={() => alert("Seller registration coming soon!")}
+                    >
+                        Register as Seller
+                    </Button>
+                    <Button
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl text-lg"
+                        onClick={() => alert("Buyer registration coming soon!")}
+                    >
+                        Register as Buyer
+                    </Button>
+                </div>
+            </div>
+
+            {/* Footer */}
+            <footer className="absolute bottom-6 text-gray-200 text-sm z-10">
+                © {new Date().getFullYear()} Carbon Credit Exchange. All rights reserved.
+            </footer>
+        </div>
+    );
+}
